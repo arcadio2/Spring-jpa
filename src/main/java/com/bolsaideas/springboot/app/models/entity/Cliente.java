@@ -1,13 +1,18 @@
 package com.bolsaideas.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -47,6 +52,15 @@ public class Cliente implements Serializable { // es recomendado para convertir 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createAt;
 
+	
+	private String foto;
+	
+	//el cascade es para que se relicen en cascada, si el cliente se elimina, se eliminan sus facturas
+	//forma la clave foranea con mappedBy
+	//orphanRemoval = True, remueve registros no asociados anningun cliente
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL) //si lo tenemos de otra farma, llama  todas las facturas de cada cliente
+	private List<Factura> facturas;
+	
 	private static final long serialVersionUID = 1L;
 
 	/*@PrePersist //para que se ejecute antes de crear un registro
@@ -54,10 +68,15 @@ public class Cliente implements Serializable { // es recomendado para convertir 
 		createAt = new Date();
 	}*/
 	
+	public Cliente() {
+		facturas = new ArrayList<Factura>();
+	}
 	
 	public Long getId() {
 		return id;
 	}
+
+	
 
 	public void setId(Long id) {
 		this.id = id;
@@ -98,6 +117,27 @@ public class Cliente implements Serializable { // es recomendado para convertir 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+	
+
+	public List<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(List<Factura> facturas) {
+		this.facturas = facturas;
+	}
+	
+	public void addFactura(Factura factura) {
+		facturas.add(factura); //agrega factura por factura
+	}
 
 	@Override
 	public String toString() {
@@ -105,5 +145,8 @@ public class Cliente implements Serializable { // es recomendado para convertir 
 		return super.toString();
 	}
 
+	
+	
+	
 	
 }
