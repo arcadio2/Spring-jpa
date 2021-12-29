@@ -20,6 +20,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
 @Entity //clase de persistencia
 @Table(name="facturas") //table facturas
@@ -28,7 +29,10 @@ public class Factura implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//autoincrementable
 	private long id;
+	
+	@NotEmpty
 	private String descripcion;
+	
 	private String observacion;
 	
 	@Temporal(TemporalType.DATE)//se guardan las fechas
@@ -100,7 +104,7 @@ public class Factura implements Serializable {
 		this.items.add(item);
 	}
 	
-	private Double getTotal() {
+	public Double getTotal() {
 		Double total = 0.0; 
 		int size = items.size(); 
 		for (int i = 0; i < size; i++) {

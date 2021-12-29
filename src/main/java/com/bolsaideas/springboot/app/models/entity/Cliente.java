@@ -141,8 +141,7 @@ public class Cliente implements Serializable { // es recomendado para convertir 
 
 	@Override
 	public String toString() {
-		
-		return super.toString();
+		return  nombre + " " + apellido ;
 	}
 
 	

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="hhtp://www.thymeleaf.org">
+
+<body>
+		
+	<script type="text/javascript" th:fragment="javascript">
+		
+		$(document).ready( ()=>{
+			$("#buscar_producto").autocomplete({
+				source: (req,res)=>{
+					$.ajax({
+						url:"/factura/cargar-productos/"+ req.term, //valor que escribe
+						dataType: "json",
+						data:{
+							term: req.term
+						},
+						success: (data)=>{
+							res($.map(data, (item)=>{
+								return {
+									value: item.id,
+									label: item.nombre,
+									precio: item.precio
+								}
+							} )); 
+						}
+					})
+				},
+				select: (event, ui)=>{
+					//$("#buscar_producto").val(ui.item.label); 
+					//obtenemos el contenido html de la plantilla
+					var linea = $("#plantillaItemsFactura").html(); 
+					if(itemsHelper.hasProducto(ui.item.value)){
+						
+						itemsHelper.incrementaCantidad(ui.item.value,ui.item.precio);
+						//si el producto existe nomas hace esto
+						return false;
+					}
+					//cambiamos los parametros
+					linea = linea.replace(/{ID}/g,ui.item.value); 
+					linea = linea.replace(/{NOMBRE}/g,ui.item.label); 
+					linea = linea.replace(/{PRECIO}/g,ui.item.precio); 
+					
+					//cargamos al tbody de la tabla
+					$("#cargarItemProductos tbody").append(linea); 
+					itemsHelper.calcularImporte(ui.item.value,ui.item.precio,1); 
+				
+					return false; 
+				}
+			}); 
+			$("form").submit(()=>{
+				//eliminamos la plantilla al enviar
+				$("#plantillaItemsFactura").remove();
+				return;
+			})
+		}); 
+		var itemsHelper={
+			calcularImporte:(id,precio,cantidad)=>{
+				$("#total_importe_"+id).html(parseInt(precio)*parseInt(cantidad)); 
+				itemsHelper.calcularTotal(); 
+			},
+			hasProducto: (id)=>{
+				var resultado = false; 
+				$('input[name="item_id[]"]').each((res,r)=>{
+					//console.log("hola "+id+ " "+ $(this).val )
+					if(parseInt(id) == parseInt( r.value ) ){
+						resultado = true; 
+					}
+				}); 
+				//si se encuntra, existe el producto con ese id
+				return resultado; 
+			},
+			incrementaCantidad:(id,precio)=>{
+				var cantidad = $("#cantidad_"+id).val() ? parseInt( $("#cantidad_"+id).val() ) : 0;
+				$("#cantidad_"+id).val(++cantidad);
+				itemsHelper.calcularImporte(id,precio,cantidad); 
+			},
+			eliminarLineaFactura: (id)=>{
+
+				$("#row_"+id).remove(); 
+				itemsHelper.calcularTotal(); 
+			},
+			calcularTotal: ()=>{
+				var total = 0; 
+			
+				$('span[id^="total_importe_"]').each((i, html)=>{
+					
+					total+= parseInt(html.innerHTML); 
+				})
+				$("#gran_total").html("$"+total);
+			}
+		}
+	</script>
+</body>
+</html>

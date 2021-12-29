@@ -21,7 +21,7 @@ public class ItemFactura implements Serializable {
 
 	private Integer cantidad;
 
-	@ManyToOne(fetch =FetchType.LAZY ) //itemFactura tiene un producto, muchos itemsfactura tienen un producto
+	@ManyToOne(fetch = FetchType.LAZY ) //itemFactura tiene un producto, muchos itemsfactura tienen un producto
 	//@JoinColumn(name = "producto_id")
 	private Producto producto; //como mapeamos producto crea la foreign automaticos
 	
@@ -46,6 +46,18 @@ public class ItemFactura implements Serializable {
 		return cantidad.doubleValue()*producto.getPrecio();
 	}
 	
+	
+	
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+
+
 	private static final long serialVersionUID = 1L;
 
 }

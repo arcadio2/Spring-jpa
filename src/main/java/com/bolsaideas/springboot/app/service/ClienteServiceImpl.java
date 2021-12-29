@@ -10,7 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 import com.bolsaideas.springboot.app.models.dao.IClienteDao;
+import com.bolsaideas.springboot.app.models.dao.IFacturaDao;
+import com.bolsaideas.springboot.app.models.dao.IProductoDao;
+import com.bolsaideas.springboot.app.models.dao.IitemFacturaDao;
 import com.bolsaideas.springboot.app.models.entity.Cliente;
+import com.bolsaideas.springboot.app.models.entity.Factura;
+import com.bolsaideas.springboot.app.models.entity.ItemFactura;
+import com.bolsaideas.springboot.app.models.entity.Producto;
 
 @Service("clienteDaoFachada") //clase service, fachada. punto de acceso a distintos DAO
 public class ClienteServiceImpl  implements IClienteService{
@@ -19,6 +25,16 @@ public class ClienteServiceImpl  implements IClienteService{
 	
 	@Autowired
 	private IClienteDao clienteDao;
+	
+	@Autowired
+	private IProductoDao productoDao; 
+
+	@Autowired
+	private IFacturaDao facturaDao;  
+	
+	@Autowired
+	private IitemFacturaDao itemDao; 
+	
 	
 	@Override
 	@Transactional(readOnly=true)
@@ -56,7 +72,49 @@ public class ClienteServiceImpl  implements IClienteService{
 		return clienteDao.findAll(pageable);
 	}
 
+	@Override
+	public List<Producto> findByNombre(String term) {
+		
+		return productoDao.buscarPorNombre(term);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Producto> findByNombre2(String term) {
+		// TODO Auto-generated method stub
+		return productoDao.findByNombreLikeIgnoreCase("%"+term+"%");
+	}
+
+	@Override
+	@Transactional
+	public void saveFactura(Factura factura) {
+		// TODO Auto-generated method stub
+		facturaDao.save(factura);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Producto findProductoById(Long id) {
+		// TODO Auto-generated method stub
+		return productoDao.findById(id).orElse(null);
+	}
+
+	@Override
+	public void saveItemFactura(ItemFactura item) {
+		// TODO Auto-generated method stub
+		itemDao.save(item);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Factura findFacturaById(Long id) {
+		// TODO Auto-generated method stub
+		return facturaDao.findById(id).orElse(null);
+	}
+
+
+
+
+
 	
-
-
 }

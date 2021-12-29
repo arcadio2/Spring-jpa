@@ -21,5 +21,19 @@ INSERT INTO productos(nombre,precio,create_at) values("donitas",17.0,NOW());
 INSERT INTO productos(nombre,precio,create_at) values("chetos",10.0,NOW());
 INSERT INTO productos(nombre,precio,create_at) values("sabritas",13.0,NOW());
 
+INSERT INTO facturas (descripcion,observacion,create_at,cliente_id) values ("factura 1","nada",NOW(),1);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(2,1,1);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(3,3,1);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(5,2,1);
+
+INSERT INTO facturas (descripcion,observacion,create_at,cliente_id) values ("factura 1","nada",NOW(),1);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(1,3,1);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(2,2,1);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(3,1,1);
+
+INSERT INTO facturas (descripcion,observacion,create_at,cliente_id) values ("factura 2","nada",NOW(),2);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(1,2,2);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(3,5,2);
+INSERT INTO factura_items(cantidad, producto_id,factura_id) values(4,3,2);
 
 

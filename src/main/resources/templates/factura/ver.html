@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="hhtp://www.thymeleaf.org">
+<head th:replace="component/navbar :: head"></head>
+<body>
+	<section th:replace="component/navbar :: interceptor"></section>
+	<div class="container py-4">
+		<div class="card bg-dark text-secondary">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a class="btn btn-xs btn-light"
+						th:href="@{/ver/}+${factura.cliente.id}" th:text="'&laquo; volver'"></a>
+				</h4>
+				<ul class="list-group my-2">
+					<li class="list-group-item list-group-item-primary">Datos del cliente: </li>
+					<li class="list-group-item " th:text="${factura.cliente}"></li>
+					<li class="list-group-item " th:text="${factura.cliente.email}"></li>
+				</ul>
+				<ul class="list-group">
+					<li class="list-group-item list-group-item-success">Datos de la factura</li>
+					<li class="list-group-item " th:text="'Folio: '+ ${factura.id}"></li>
+					<li class="list-group-item " th:text="'Descripción: '+ ${factura.descripcion}"></li>
+					<li class="list-group-item " th:text="'Fecha: '+ ${factura.createAt}"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="component/navbar :: footer"></footer>
+</body>
+</html>
