@@ -43,7 +43,7 @@ public class Factura implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY) //muchas facturas a un cliente, un cliente solo una factura
  	private Cliente cliente;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //una factura tiene muchos items
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //una factura tiene muchos items, por cascada se agregan los items
 	//ya que es unidireccional
 	@JoinColumn(name = "factura_id")  //llave foranea para facutra_items, esto ya que no es en ambos sentidos como en mappedby
 	private List<ItemFactura> items; 
@@ -99,9 +99,17 @@ public class Factura implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+	/*SE AGREGAN EN CASCADA*/
 	public void addItemFactura(ItemFactura item) {
 		this.items.add(item);
+	}
+	
+	public List<ItemFactura> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ItemFactura> items) {
+		this.items = items;
 	}
 	
 	public Double getTotal() {
@@ -113,5 +121,11 @@ public class Factura implements Serializable {
 		return total; 
 	}
 	
+	
+	
+
+
+
+
 	private static final long serialVersionUID = 1L;
 }

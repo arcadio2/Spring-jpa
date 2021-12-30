@@ -1,5 +1,5 @@
 	<!DOCTYPE html>
-<html xmlns:th="hhtp://www.thymeleaf.org">
+<html xmlns:th="hhtp://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="component/navbar :: head"></head>
 <body>
 <section th:replace="component/navbar :: interceptor"></section>
@@ -8,13 +8,15 @@
 			<div class="card-header" th:text="${titulo}"></div>
 			<div class="card-body">
 				<h4 class="card-title">
-					<a class="btn btn-primary btn-xs"
+					<a class="btn btn-primary btn-xs" sec:authorize="hasRole('ROLE_ADMIN')"
 								th:href="@{/factura/form/} + ${cliente.id}" th:text="'Crear factura'"></a>
 				</h4>
 				
-				<img class="img-thumbnail rounded float-left" style="max-width: 25%;" th:if="${#strings.length(cliente.foto)}"
+				<img class="img-thumbnail rounded float-left" style="max-width: 25%;" 
+						
+						th:if="${cliente.foto !=null} and ${#strings.length(cliente.foto)} "
 					 th:src="@{'/uploads/'+${cliente.foto} }" th:alt="${cliente.foto}" />
-					 
+					 <span th:if="${cliente.foto ==null}">a</span>
 				<ul class="list-group">
 					<li class="list-group-item" th:text="${cliente.nombre}"></li>
 					<li class="list-group-item" th:text="${cliente.apellido}"></li>
@@ -28,10 +30,11 @@
 					<thead class="thead-inverse">
 						<tr>
 							<th>Folio: </th>
-							<th>Descripci�n: </th>
+							<th>Descripción: </th>
 							<th>Fecha: </th>
 							<th>Total: </th>
-							<th>Ver: </th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')">Ver: </th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar:</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -40,7 +43,9 @@
 							<td th:text="${factura.descripcion}"></td>
 							<td th:text="${factura.createAt}"></td>
 							<td th:text="${factura.total}"></td>
-							<td><a th:href="@{'/factura/ver/'+${factura.id} }" class="btn btn-success">Detalle</a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/factura/ver/'+${factura.id} }" class="btn btn-success">Detalle</a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/factura/eliminar/'+${factura.id} }" class="btn btn-danger"
+								onclick="return confirm('Estás seguro de que deseas eliminar?')">Eliminar</a></td>
 						</tr>
 					</tbody>
 				</table>
