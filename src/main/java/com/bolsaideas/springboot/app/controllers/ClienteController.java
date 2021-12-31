@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
@@ -62,11 +64,13 @@ public class ClienteController {
 	@Autowired
 	private IUploadFileService uploadFile; 
 	
+	@Autowired
+	private MessageSource messageSource; 
 	
 	//@RequestMapping(value = "/listar",method =RequestMethod.GET)
 	@GetMapping({"/","/listar"})
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page, Model model,
-			Authentication authentication, HttpServletRequest request) {
+			Authentication authentication, HttpServletRequest request, Locale locale) {
 		if(authentication!=null) {
 			model.addAttribute("username",authentication.getName());
 		}
@@ -87,7 +91,7 @@ public class ClienteController {
 		Page<Cliente> clientes = clienteService.findAll(pageRequest);
 		PageRender<Cliente> pageRender = new PageRender<>("/listar",clientes); /*Bista paginable*/
 		model.addAttribute("page",pageRender);
-		model.addAttribute("titulo","Listado de clientes");
+		model.addAttribute("titulo",messageSource.getMessage("text.cliente.listar.titulo", null,locale));
 		model.addAttribute("clientes",clientes);
 		//System.out.println(clienteService.findAll());
 		return "listar"; 

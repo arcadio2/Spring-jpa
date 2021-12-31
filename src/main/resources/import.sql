@@ -36,4 +36,10 @@ INSERT INTO factura_items(cantidad, producto_id,factura_id) values(1,2,3);
 INSERT INTO factura_items(cantidad, producto_id,factura_id) values(3,5,3);
 INSERT INTO factura_items(cantidad, producto_id,factura_id) values(4,3,3);
 
+INSERT INTO users(username,password,enabled) values ('arcadio','$2a$10$x9Zs1kpLAztlTTMuqVDhZOqXyJ27M4hSeSPUEUL0S/TdcotRqUgBS',1); 
+INSERT INTO users(username,password,enabled) values ('admin','$2a$10$BFoLjxD9T1eGY7sK7xhs3.g8TZed6q2GNiMkk4CdrrSdlV7aJSAGG',1); 
+
+INSERT INTO authorities(user_id,authority) values(1,'ROLE_USER'); 
+INSERT INTO authorities(user_id,authority) values(2,'ROLE_USER'); 
+INSERT INTO authorities(user_id,authority) values(2,'ROLE_ADMIN'); 
 

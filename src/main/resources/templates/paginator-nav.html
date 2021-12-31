@@ -6,11 +6,11 @@
 <nav th:fragment="paginator">
 	<ul class="pagination">
 		<li class="page-item" th:class="${page.first? 'page-item disabled': 'page-item'}">
-			<span class="page-link" th:if="${page.first}">Primera</span>
-			<a class="page-link" th:if="${ not page.first}" th:href="@{${page.url}(page=0)}">Primera</a>
+			<span class="page-link" th:if="${page.first}" th:text="#{text.paginator.first}">Primera</span>
+			<a class="page-link" th:if="${ not page.first}" th:href="@{${page.url}(page=0)}" th:text="#{text.paginator.first}">Primera</a>
 		</li>
 		<li class="page-item" th:class="${not page.hasPrevious? 'page-item disabled': 'page-item'}">
-			<span class="page-link" th:if="${not page.hasPrevious}">&laquo;</span>
+			<span class="page-link" th:if="${not page.hasPrevious}" >&laquo;</span>
 			<a class="page-link" th:if="${page.hasPrevious}" th:href="@{${page.url}(page=${page.paginaActual-2})}">&laquo;</a>
 		</li>
 	
@@ -25,8 +25,8 @@
 		</li>
 		
 		<li class="page-item" th:class="${page.last? 'page-item disabled': 'page-item'}">
-			<span class="page-link" th:if="${page.last}">Ultima</span>
-			<a class="page-link" th:if="${ not page.last}" th:href="@{${page.url}(page=${page.totalPaginas-1})}">Ultima</a>
+			<span class="page-link" th:if="${page.last}" th:text="#{text.paginator.last}">Ultima</span>
+			<a class="page-link" th:if="${ not page.last}" th:href="@{${page.url}(page=${page.totalPaginas-1})}" th:text="#{text.paginator.last}">Ultima</a>
 		</li>
 		
 	</ul>
