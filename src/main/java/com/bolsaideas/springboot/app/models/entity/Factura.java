@@ -21,6 +21,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.xml.bind.annotation.XmlTransient;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity //clase de persistencia
 @Table(name="facturas") //table facturas
@@ -41,6 +44,7 @@ public class Factura implements Serializable {
 	
 	//carga perezosa, se espera para hacer consultas. Evita que traiga todo de una vez
 	@ManyToOne(fetch = FetchType.LAZY) //muchas facturas a un cliente, un cliente solo una factura
+	@JsonBackReference //esta ya no se muestra en el JSON, se omite
  	private Cliente cliente;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //una factura tiene muchos items, por cascada se agregan los items
@@ -92,6 +96,8 @@ public class Factura implements Serializable {
 		this.createAt = createAt;
 	}
 
+	//cuando se serializa el xml no llama este método
+	@XmlTransient
 	public Cliente getCliente() {
 		return cliente;
 	}

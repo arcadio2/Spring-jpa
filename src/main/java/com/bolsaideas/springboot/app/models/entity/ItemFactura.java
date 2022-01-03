@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "factura_items")
 public class ItemFactura implements Serializable {
@@ -21,8 +23,10 @@ public class ItemFactura implements Serializable {
 
 	private Integer cantidad;
 
+	//
 	@ManyToOne(fetch = FetchType.LAZY ) //itemFactura tiene un producto, muchos itemsfactura tienen un producto
 	//@JoinColumn(name = "producto_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"}) //ignora propiedades para el JSON, puede ir aca o sobre la clase
 	private Producto producto; //como mapeamos producto crea la foreign automaticos
 	
 	

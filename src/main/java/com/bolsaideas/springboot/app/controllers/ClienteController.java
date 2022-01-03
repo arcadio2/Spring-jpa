@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -42,6 +43,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,6 +68,8 @@ public class ClienteController {
 	
 	@Autowired
 	private MessageSource messageSource; 
+	
+
 	
 	//@RequestMapping(value = "/listar",method =RequestMethod.GET)
 	@GetMapping({"/","/listar"})
@@ -132,7 +136,7 @@ public class ClienteController {
 	
 	@Secured("ROLE_ADMIN")	
 	@GetMapping("/form")
-	public String crear(Model model) {
+	public String crear(Model model, Locale locale) {
 		model.addAttribute("titulo","Formulario de cliente");
 		Cliente cliente = new Cliente();
 		model.addAttribute("cliente",cliente); 

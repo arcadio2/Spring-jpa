@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="hhtp://www.thymeleaf.org">
+<head th:replace="component/navbar :: head"></head>
+<body>
+	<section th:replace="component/navbar :: interceptor"></section>
+	<div class="container py-4">
+		<div class="card bg-danger text-white">
+			
+			<div class="card-header">Error:La página no existe</div>
+			<div class="card-body">
+				<h5 class="card-title">
+					La página que buscas no ha sido encontrada
+				</h5>
+				<a th:href="@{/listar}" class="btn btn-outline-light" role="button">Inicio</a>
+				
+			</div>
+			
+			
+		</div>
+		
+		
+	</div>
+<footer th:replace="component/navbar :: footer"></footer>
+</body>
+</html>

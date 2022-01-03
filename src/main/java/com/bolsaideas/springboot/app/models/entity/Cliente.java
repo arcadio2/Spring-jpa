@@ -24,6 +24,10 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 
 @Entity // es una entidad JPA
@@ -50,6 +54,7 @@ public class Cliente implements Serializable { // es recomendado para convertir 
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE) // en que formato se guarda en la bd
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") //para respuyesto json
 	private Date createAt;
 
 	
@@ -59,6 +64,8 @@ public class Cliente implements Serializable { // es recomendado para convertir 
 	//forma la clave foranea con mappedBy
 	//orphanRemoval = True, remueve registros no asociados anningun cliente
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL) //si lo tenemos de otra farma, llama  todas las facturas de cada cliente
+	//@JsonIgnore //lo ignora el json
+	@JsonManagedReference //para que no haya ciclo
 	private List<Factura> facturas;
 	
 	private static final long serialVersionUID = 1L;
